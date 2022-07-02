@@ -32,7 +32,6 @@ df_merged[df_merged.columns[df_merged.isnull().mean() > 0.5]]
 #%%
 # Separate the features
 feature_set = df_merged.iloc[:,2:56]
-#feature_set["Health&SafetyPolicy"].iloc[0:10].replace(to_replace = 500, value = np.nan , inplace = True)
 feature_set.head()
 
 #%%
@@ -50,14 +49,16 @@ df_merged.head()
 #feature_set = feature_set.reset_index()
 df_merged.set_index(["Company Name", "Fiscal Years"], inplace=True)
 #%%
-df_merged.head()
+plt.rcParams["figure.dpi"] = 600
+
+nans_before_dropping = df_merged.isna().sum()
+ax1 = nans_before_dropping.plot.bar(x = list(nans_before_dropping.index),y =  nans_before_dropping.values.flatten().tolist(),figsize = (10,3))
+ax1.set(ylabel= "Number of missing values before dropping rows with entirely NaN")
 
 #%%
 # Shape before dropping columns
 keep_track = df_merged.shape
 df_merged.loc["Zignago Vetro SpA",9].isnull().sum() 
-
-
 #%%
 controversy_companies = dict()
 non_controversy_companies = dict()
